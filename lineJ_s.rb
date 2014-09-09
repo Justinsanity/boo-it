@@ -18,8 +18,8 @@ EM.run {
 
     ws.onmessage { |msg|
       puts "Recieved message: #{msg}"
-      ws.send "Pong: #{msg} ."
-      ws.send "Hello , welcome to Line_J"
+      ws.send "s: #{msg} ."
+      ws.send "s: Hello , welcome to Line_J"
     }
   end
 }

@@ -7,7 +7,7 @@
       $(document).ready(function(){
         function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
 
-        ws = new WebSocket("ws://siriuswang.kd.io:8080");
+        ws = new WebSocket("ws://127.0.0.1:8080");
         ws.onmessage = function(evt) { $("#msg").append("<p>"+evt.data+"</p>"); };
         ws.onclose = function() { debug("socket closed"); };
         ws.onopen = function() {
