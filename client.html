@@ -3,6 +3,7 @@
   <head>
     <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
     <script>
+	var testNum = 33;
 	// this script uesd the jQuery technology
       $(document).ready(function(){
         function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
@@ -13,6 +14,8 @@
         ws.onopen = function() {
           debug("connected...");
           ws.send("hello server,I am client!");
+          ws.send("sshello server,I am client!");
+	  ws.send(testNum);
         };
       });
     </script>
@@ -20,6 +23,7 @@
         function booFunction() {
             alert(document.getElementById("boo").value);
 	    //alert("ddd");
+            ws.send(document.getElementById("boo").value);
         }
    </script>
   </head>
