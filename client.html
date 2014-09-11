@@ -13,9 +13,9 @@
         ws.onclose = function() { debug("socket closed"); };
         ws.onopen = function() {
           debug("connected...");
-          ws.send("hello server,I am client!");
-          ws.send("sshello server,I am client!");
-	  ws.send(testNum);
+          //ws.send("hello server,I am client!");
+          //ws.send("sshello server,I am client!");
+	  //ws.send(testNum);
         };
       });
     </script>
@@ -23,11 +23,14 @@
         function booFunction() {
             //alert(document.getElementById("boo").value);
 	    //alert("ddd");
-            ws.send(document.getElementById("boo").value);
+            // temp use string instead of json
+            ws.send(document.getElementById("uid").value + "," + document.getElementById("did").value + "," + document.getElementById("boo").value);
         }
    </script>
   </head>
   <body>
+    User: <input type="text" id="uid" name="uid">
+    talk to User: <input type="text" id="did" name="did"><br/>
     Boo: <input type="text" id="boo" name="boo">
     <input type="button" onclick="booFunction()" value="boo it!" /> 
     <div id="debug"></div>

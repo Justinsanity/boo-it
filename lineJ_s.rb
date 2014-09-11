@@ -3,6 +3,8 @@ require 'em-websocket'
 puts "Server is listening!..."
 EM.run {
     @channel = EM::Channel.new
+    #puts @channel.class
+    #puts @channel.methods.sort
   EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
 
     #puts ws.methods.sort
@@ -14,11 +16,17 @@ EM.run {
       #puts handshake.query
       #puts handshake.origin
       #puts handshake.methods.sort
-      sid = @channel.subscribe {|msg| ws.send msg}
+      sid = @channel.subscribe {|msg|
+          
+          ws.send msg # send itself
+      }
+      puts sid
+      # broadcast each connection users
       @channel.push "#{sid} connect!"
 
       ws.onmessage {|msg|
           @channel.push "<#{sid}>: #{msg}"
+          
       }
 
       ws.onclose {
