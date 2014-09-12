@@ -3,28 +3,16 @@
   <head>
     <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
     <script>
-        //
-        // this script must be through login authentication server and sessionStorage
-        //
 	var testNum = 33;
 	// this script uesd the jQuery technology
       $(document).ready(function(){
         function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
 
         ws = new WebSocket("ws://127.0.0.1:8080");
-        ws.onmessage = function(evt) {
-	     var tmp = evt.data.split(",")
-             if ((tmp[0] == "larry" && tmp[1] == "veck") || (tmp[0] == "veck" && tmp[1] =="larry")){
-                 if(document.getElementById("uid").value == "veck" || document.getElementById("uid").value == "larry"){
-                     $("#msg").append("<p>"+evt.data+"</p>");
-                 }
-             }
-             //$("#msg").append("<p>"+evt.data+"</p>");
-        };
+        ws.onmessage = function(evt) { $("#msg").append("<p>"+evt.data+"</p>"); };
         ws.onclose = function() { debug("socket closed"); };
         ws.onopen = function() {
           debug("connected...");
-          ws.send("hi");
           //ws.send("hello server,I am client!");
           //ws.send("sshello server,I am client!");
 	  //ws.send(testNum);
