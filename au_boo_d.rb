@@ -7,6 +7,7 @@ require 'json'
 include Mongo
 
 configure do 
+    enable :sessions
     conn = MongoClient.new("localhost",27017)
     set :mongo_connection, conn
     set :mongo_db, conn.db('Boo')
@@ -36,24 +37,44 @@ helpers do
     def check_username (name,pwd)
         @lookup_result = settings.mongo_db['accounts'].find_one(:username => name).to_json
         if @lookup_result.to_s == "null"
+            session.clear
             "NOT FOUND ACCOUNT!"
         else
            parsed = JSON.parse(@lookup_result)
   	   @password_l = parsed["password"]
+           @session_id = parsed["_id"]["$oid"]
            if @password_l.eql?(pwd)
                # need to make a ticket sender server
  	       #"show password: #{@password_l}" 
-               redirect to('client')
+               session[:id] = @session_id
+               redirect 'client'
+               #"#{parsed["_id"]["$oid"]}"
            else
                # need to make a simeple error redirect page
-               redirect to('/hello') 
+               session.clear
+               redirect 'hello'
            end
         end
     end
 end
-
+# action to direct to client to boo !
 get '/client' do
-    erb :client
+    if session[:id] == nil
+        session.clear
+        redirect 'hello'
+    else 
+        if session[:id] == @session_id
+            erb :client
+        else
+            # this part need to some soliutions
+            # 1: clean session(comparison)
+            # 2: query DB info. again
+            #"====#{@session_id}==="
+            session[:id]
+            #"You are not permissioned to login!"
+        end
+    end
+    #erb :client
 end
 # action to lookup database
 get '/documents/?' do 
