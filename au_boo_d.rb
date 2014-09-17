@@ -41,7 +41,9 @@ helpers do
            parsed = JSON.parse(@lookup_result)
   	   @password_l = parsed["password"]
            if @password_l.eql?(pwd)
- 	       "show password: #{@password_l}" 
+               # need to make a ticket sender server
+ 	       #"show password: #{@password_l}" 
+               redirect to('client')
            else
                # need to make a simeple error redirect page
                redirect to('/hello') 
@@ -50,6 +52,9 @@ helpers do
     end
 end
 
+get '/client' do
+    erb :client
+end
 # action to lookup database
 get '/documents/?' do 
     content_type :json
