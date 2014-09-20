@@ -63,15 +63,15 @@ get '/client' do
         session.clear
         redirect 'hello'
     else 
-        if session[:id] == @session_id
+        if session[:id].to_s.eql?(object_id(session[:id]).to_s) 
             erb :client
         else
             # this part need to some soliutions
             # 1: clean session(comparison)
             # 2: query DB info. again
             #"====#{@session_id}==="
-            session[:id]
-            #"You are not permissioned to login!"
+            #session[:id]
+            "You are not permissioned to login!"
         end
     end
     #erb :client

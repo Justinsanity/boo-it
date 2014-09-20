@@ -14,8 +14,8 @@
         ws = new WebSocket("ws://127.0.0.1:8080");
         ws.onmessage = function(evt) {
 	     var tmp = evt.data.split(",")
-             if ((tmp[0] == "larry" && tmp[1] == "veck") || (tmp[0] == "veck" && tmp[1] =="larry")){
-                 if(document.getElementById("uid").value == "veck" || document.getElementById("uid").value == "larry"){
+             if ((tmp[0] == "test" && tmp[1] == "test2") || (tmp[0] == "test2" && tmp[1] =="test")){
+                 if(document.getElementById("uid").value == "test2" || document.getElementById("uid").value == "test"){
                      $("#msg").append("<p>"+evt.data+"</p>");
                  }
              }
