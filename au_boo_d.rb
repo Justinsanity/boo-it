@@ -8,6 +8,9 @@ include Mongo
 
 configure do 
     enable :sessions
+
+    # this place must implement a random secret key generation
+    set :session_secret, 'booit' 
     conn = MongoClient.new("localhost",27017)
     set :mongo_connection, conn
     set :mongo_db, conn.db('Boo')
@@ -33,6 +36,15 @@ helpers do
         #"show password: #{@password} -----"
         
     end
+
+    def username_by_id id
+        id = object_id(id) if String === id
+            @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
+        parsed = JSON.parse(@obj)
+        return parsed["username"].to_s
+
+    end
+
 
     def check_username (name,pwd)
         @lookup_result = settings.mongo_db['accounts'].find_one(:username => name).to_json
@@ -63,12 +75,16 @@ get '/client' do
         session.clear
         redirect 'hello'
     else 
+        # MUST to design a random key to hash the session
         if session[:id].to_s.eql?(object_id(session[:id]).to_s) 
-            erb :client
+            # this part needs a algorithm to send ticket mechanism           
+            login_usr = username_by_id(session[:id])
+            erb :client , :locals => {:user_name => "[#{login_usr}]"}
         else
             # this part need to some soliutions
             # 1: clean session(comparison)
             # 2: query DB info. again
+            # 3: RANDOM KET SETTING
             #"====#{@session_id}==="
             #session[:id]
             "You are not permissioned to login!"
