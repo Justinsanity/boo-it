@@ -29,3 +29,10 @@ This README would normally document whatever steps are necessary to get your app
 
 * Repo owner or admin
 * Other community or team contact
+
+### Architecture
+1. Backend Language: Ruby (2.1.2)
+2. Framework: Sinatra
+3. Files:
+	* au_boo_d.rb - authentic server.
+	* ch_boo_d.rb - Boo it! server.
