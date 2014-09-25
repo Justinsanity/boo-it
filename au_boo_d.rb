@@ -34,7 +34,6 @@ helpers do
         parsed = JSON.parse(@obj)
         @password = parsed["password"]
         #"show password: #{@password} -----"
-        
     end
 
     def username_by_id id
@@ -79,7 +78,7 @@ get '/client' do
         if session[:id].to_s.eql?(object_id(session[:id]).to_s) 
             # this part needs a algorithm to send ticket mechanism           
             login_usr = username_by_id(session[:id])
-            erb :client , :locals => {:user_name => "[#{login_usr}]"}
+            erb :client , :locals => {:user_name => "#{login_usr}"}
         else
             # this part need to some soliutions
             # 1: clean session(comparison)
@@ -91,6 +90,16 @@ get '/client' do
         end
     end
     #erb :client
+end
+
+get '/friends' do
+    if session[:id] == nil
+        session.clear
+        redirect 'hello'
+    else
+
+    end
+ 
 end
 # action to lookup database
 get '/documents/?' do 

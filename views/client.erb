@@ -2,6 +2,7 @@
 <html>
   <head>
     <script src='http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js'></script>
+    <script> var u_name; </script>
     <script>
         //
         // this script must be through login authentication server and sessionStorage
@@ -14,10 +15,17 @@
         ws = new WebSocket("ws://127.0.0.1:8080");
         ws.onmessage = function(evt) {
 	     var tmp = evt.data.split(",")
-             if ((tmp[0] == "test" && tmp[1] == "test2") || (tmp[0] == "test2" && tmp[1] =="test")){
-                 if(document.getElementById("uid").value == "test2" || document.getElementById("uid").value == "test"){
-                     $("#msg").append("<p>"+evt.data+"</p>");
-                 }
+             //
+             // need to design a friends list here!
+             //
+ 
+             // ***friendship list***
+             if ((tmp[0] == u_name && tmp[1] == "test2") || (tmp[0] == "test2" && tmp[1] == u_name)){
+                 // identify whose message . default: document.getElementById 
+                 //if(u_name == "test2" || u_name == "test"){
+                 //    $("#msg").append("<p>"+evt.data+"</p>");
+                 //}
+                 $("#msg").append("<p>"+evt.data+"</p>");
              }
              //$("#msg").append("<p>"+evt.data+"</p>");
         };
@@ -33,10 +41,12 @@
     </script>
     <script>
         function booFunction() {
+            u_name = "<%= user_name %>";
+            //alert(u_name);
             //alert(document.getElementById("boo").value);
 	    //alert("ddd");
             // temp use string instead of json
-            ws.send(document.getElementById("uid").value + "," + document.getElementById("did").value + "," + document.getElementById("boo").value);
+            ws.send(u_name + "," + document.getElementById("did").value + "," + document.getElementById("boo").value);
         }
    </script>
   </head>
