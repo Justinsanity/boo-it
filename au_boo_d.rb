@@ -3,9 +3,10 @@ require 'sinatra'
 require 'mongo'
 require 'json/ext'
 require 'json'
-
 include Mongo
-
+#
+# configuration for setting
+#
 configure do 
     enable :sessions
 
@@ -15,36 +16,49 @@ configure do
     set :mongo_connection, conn
     set :mongo_db, conn.db('Boo')
 end
-
-get '/collections/?' do 
-    content_type :json
-    settings.mongo_db.collection_names.to_json
-end
-
+#
+# helpers for methods
+#
 helpers do 
-
+    # lookup for id
     def object_id val
         BSON::ObjectId.from_string(val)
     end
 
-
-    def document_by_id id
+    # find password from id
+    def password_by_id id
         id = object_id(id) if String === id
             @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
         parsed = JSON.parse(@obj)
         @password = parsed["password"]
-        #"show password: #{@password} -----"
     end
 
+    # find username from id
     def username_by_id id
         id = object_id(id) if String === id
             @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
         parsed = JSON.parse(@obj)
         return parsed["username"].to_s
+    end
 
+    # find friends from id
+    def friends_by_id id
+        id = object_id(id) if String === id
+            @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
+        parsed = JSON.parse(@obj)
+        
+        
+        friends = parsed["friends"]
+        if friends.nil?
+            return nil.to_a.to_json
+        else
+            return friends.to_json
+        end
+        #"#{friends.}"
     end
 
 
+    # check username exists ?
     def check_username (name,pwd)
         @lookup_result = settings.mongo_db['accounts'].find_one(:username => name).to_json
         if @lookup_result.to_s == "null"
@@ -68,7 +82,9 @@ helpers do
         end
     end
 end
+#
 # action to direct to client to boo !
+#
 get '/client' do
     if session[:id] == nil
         session.clear
@@ -78,7 +94,8 @@ get '/client' do
         if session[:id].to_s.eql?(object_id(session[:id]).to_s) 
             # this part needs a algorithm to send ticket mechanism           
             login_usr = username_by_id(session[:id])
-            erb :client , :locals => {:user_name => "#{login_usr}"}
+            friends_json = friends_by_id(session[:id])
+            erb :client , :locals => {:user_name => "#{login_usr}",:friends_list => friends_json}
         else
             # this part need to some soliutions
             # 1: clean session(comparison)
@@ -91,39 +108,79 @@ get '/client' do
     end
     #erb :client
 end
-
+#
+# redirect page
+#
+get '/redirect' do
+    haml :redirect
+end
+#
+# friends list route for TEST!!!!!
+#
 get '/friends' do
     if session[:id] == nil
         session.clear
         redirect 'hello'
     else
+        if URI(request.referrer || '').path == '/redirect'
+            # find friends logic
+            if session[:id].to_s.eql?(object_id(session[:id]).to_s)
+                friends_json = friends_by_id(session[:id])
 
+                # here must sent to client as friends list /views
+                "#{friends_json}"
+            else
+                "Not permissioned!"
+            end
+        else 
+            # from somewhere i don't know , so clean the session.
+            session.clear
+            redirect  'hello'
+        end
     end
- 
 end
+#
+# logout and clean the session
+#
+get '/logout' do
+    session.clear
+    redirect 'hello'
+end
+#
 # action to lookup database
+#
 get '/documents/?' do 
     content_type :json
     settings.mongo_db['accounts'].find.to_a.to_json
 end
-
+#
 # action to lookup by id
+#
 get '/documents/:id' do
     content_type :json
-    document_by_id(params[:id])
+    password_by_id(params[:id])
 end
-
-
+#
+# show index
+#
 get '/hello' do
     erb :index
 end
-
+#
+# login test
+#
 post '/login' do
     @username = params[:username]
     @password = params[:password]
     
     check_username(params[:username],params[:password])
-    
     #erb :result
+end
+#
+# mongoDB test
+#
+get '/collections/?' do
+    content_type :json
+    settings.mongo_db.collection_names.to_json
 end
 

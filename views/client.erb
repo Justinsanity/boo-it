@@ -20,7 +20,7 @@
              //
  
              // ***friendship list***
-             if ((tmp[0] == u_name && tmp[1] == "test2") || (tmp[0] == "test2" && tmp[1] == u_name)){
+             if ((tmp[0] == u_name && tmp[1] == f_name) || (tmp[0] == f_name && tmp[1] == u_name)){
                  // identify whose message . default: document.getElementById 
                  //if(u_name == "test2" || u_name == "test"){
                  //    $("#msg").append("<p>"+evt.data+"</p>");
@@ -42,17 +42,26 @@
     <script>
         function booFunction() {
             u_name = "<%= user_name %>";
+            f_name = document.getElementById("f_list").value;
             //alert(u_name);
             //alert(document.getElementById("boo").value);
 	    //alert("ddd");
             // temp use string instead of json
-            ws.send(u_name + "," + document.getElementById("did").value + "," + document.getElementById("boo").value);
+            ws.send(u_name + "," + f_name + "," + document.getElementById("boo").value);
         }
    </script>
   </head>
   <body>
     Hello! <%= user_name %>
-    talk to User: <input type="text" id="did" name="did"><br/>
+    <!--talk to User: <input type="text" id="did" name="did">-->
+    --talk to friends: 
+                        <select name="f_list" id="f_list">
+                        <% f_hash = JSON.parse(friends_list) %>
+                        <% f_hash.each do |f| %> 
+                        <option value="<%= f %>"><%= f %></option>
+                        <% end %>
+                        </select>
+    <br/>
     Boo: <input type="text" id="boo" name="boo">
     <input type="button" onclick="booFunction()" value="boo it!" /> 
     <div id="debug"></div>
