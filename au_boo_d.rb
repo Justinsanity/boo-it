@@ -3,6 +3,7 @@ require 'sinatra'
 require 'mongo'
 require 'json/ext'
 require 'json'
+require 'haml'
 include Mongo
 #
 # configuration for setting
@@ -95,7 +96,8 @@ get '/client' do
             # this part needs a algorithm to send ticket mechanism           
             login_usr = username_by_id(session[:id])
             friends_json = friends_by_id(session[:id])
-            erb :client , :locals => {:user_name => "#{login_usr}",:friends_list => friends_json}
+            #erb :client , :locals => {:user_name => "#{login_usr}",:friends_list => friends_json}
+            haml :test , :locals => {:user_name => "#{login_usr}",:friends_list => friends_json}
         else
             # this part need to some soliutions
             # 1: clean session(comparison)
@@ -107,6 +109,33 @@ get '/client' do
         end
     end
     #erb :client
+end
+#
+# test_client
+#
+post '/test_client' do
+    #"hello #{params[:chat_f]}"
+    if session[:id] == nil
+        session.clear
+        redirect 'hello'
+    else
+        # MUST to design a random key to hash the session
+        if session[:id].to_s.eql?(object_id(session[:id]).to_s)
+            # this part needs a algorithm to send ticket mechanism           
+            login_usr = username_by_id(session[:id])
+            #"hello #{params[:chat_f]}"
+            haml :friends_ch , :locals => {:user_name => "#{login_usr}",:friend_name => params[:chat_f]}
+        else
+            "You are not permissioned to login!"
+        end
+    end
+end
+#
+# if use incorrect http request to client
+#
+get '/test_client' do
+    session.clear
+    redirect 'hello'
 end
 #
 # redirect page
@@ -183,4 +212,26 @@ get '/collections/?' do
     content_type :json
     settings.mongo_db.collection_names.to_json
 end
+#
+# friends_test
+#
+get '/test' do
+    if session[:tmp] == nil
+        "nil"
+    else
+        haml :test , :locals =>{:tmp => "123"}
+    end
+end
 
+get '/test_s' do
+    session[:tmp] = "session_456"
+end
+
+get '/test_l' do 
+    session.clear
+    "session clear!"
+end
+
+#post '/test_client' do
+#    "hello #{params[:chat_f]}"
+#end

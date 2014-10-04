@@ -1,0 +1,16 @@
+!!!5
+%html
+    %head
+        %title Friends
+        %script{:type => "text/javascript",:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"}
+        %script{:type => "text/javascript",:src => "to_client.js"}
+    %body
+        %h1{:id => "username"} #{locals[:user_name]}
+        -#%p{:id => "session_name"} #{session[:tmp].inspect}
+        %p choose your friends:
+        - JSON.parse(friends_list).each do |f|
+        .friends{:id => "#{f.to_s}"}= f.to_s
+        - end unless @do_nothing
+        %form{:action =>"test_client",:method =>"post",:id => "form"}
+            %input{:type => "hidden",:name => "chat_f",:id => "chat_f",:value => "123"}
+            -#%button{:type => "submit"} submit

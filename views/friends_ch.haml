@@ -1,0 +1,18 @@
+!!!5
+%html
+    %head
+        %script{:type => "text/javascript",:src => "http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js"}
+        %script{:type => "text/javascript",:src => "send.js"}
+        %script{:type => "text/javascript",:src => "websocket.js"}
+
+        :javascript
+            
+        %title Boo it!
+    %body
+        .content{:id => "usr_name" , :value => "#{user_name.to_s}"}= user_name
+        %a talk to friends:
+        %strong{:id => "fri_name" , :value => "#{friend_name.to_s}"}= friend_name
+        %input{:type => "text" , :id => "boo" , :name => "boo"}
+        %input{:type => "button",:onclick => "booFunction()", :value => "Boo it!"}
+        .content{:id => "debug"}
+        .dialog{:id => "msg"}
