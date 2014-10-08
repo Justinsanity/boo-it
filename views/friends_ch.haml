@@ -13,4 +13,9 @@
         %input{:type => "text" , :id => "boo" , :name => "boo"}
         %input{:type => "button",:onclick => "booFunction()", :value => "Boo it!"}
         .content{:id => "debug"}
+        .dialog{:id => "history_msg"}
+            - JSON.parse(history_msg).each do |m|
+            - tmpStr = m['from'].to_s + "," + m['to'].to_s + "," + m['log'].to_s
+            %p{}= tmpStr
+            - end unless @do_nothing
         .dialog{:id => "msg"}

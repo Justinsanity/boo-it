@@ -58,6 +58,22 @@ helpers do
         #"#{friends.}"
     end
 
+    # find history msg from history_id
+    def history_by_id id
+        @history_obj = settings.mongo_db['dialog'].find_one(:did => id).to_json
+        #p "`````#{@history_obj.to_s}`````"
+        if @history_obj.to_s == "null"
+            return nil.to_a.to_json
+        else
+            his_parsed = JSON.parse(@history_obj)
+            ch_log = his_parsed["dialog"]
+            return ch_log.to_json
+            #p "-----#{ch_log.to_json.to_s}------------"
+            
+        end
+    end
+
+
 
     # check username exists ?
     def check_username (name,pwd)
@@ -124,7 +140,16 @@ post '/test_client' do
             # this part needs a algorithm to send ticket mechanism           
             login_usr = username_by_id(session[:id])
             #"hello #{params[:chat_f]}"
-            haml :friends_ch , :locals => {:user_name => "#{login_usr}",:friend_name => params[:chat_f]}
+
+            # history send!
+            historyid = []
+            historyid.push(login_usr.to_s)
+            historyid.push(params[:chat_f].to_s)
+            sort_his_id = historyid.sort
+            q_history_id = sort_his_id[0].to_s + sort_his_id[1].to_s
+            history_json = history_by_id(q_history_id)
+
+            haml :friends_ch , :locals => {:user_name => "#{login_usr}",:friend_name => params[:chat_f],:history_msg => history_json}
         else
             "You are not permissioned to login!"
         end
@@ -180,7 +205,8 @@ end
 #
 get '/documents/?' do 
     content_type :json
-    settings.mongo_db['accounts'].find.to_a.to_json
+    #settings.mongo_db['accounts'].find.to_a.to_json
+    settings.mongo_db['dialog'].find.to_a.to_json
 end
 #
 # action to lookup by id
@@ -231,7 +257,3 @@ get '/test_l' do
     session.clear
     "session clear!"
 end
-
-#post '/test_client' do
-#    "hello #{params[:chat_f]}"
-#end

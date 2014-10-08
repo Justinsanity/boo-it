@@ -23,7 +23,7 @@ $(document).ready(function(){
     ws.onclose = function() { debug("socket closed"); };
     ws.onopen = function() {
       debug("connected...");
-      ws.send("hi");
+      //ws.send("hi");
       //ws.send("hello server,I am client!");
       //ws.send("sshello server,I am client!");
       //ws.send(testNum);
