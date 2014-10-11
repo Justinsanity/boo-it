@@ -11,6 +11,6 @@
         - JSON.parse(friends_list).each do |f|
         .friends{:id => "#{f.to_s}"}= f.to_s
         - end unless @do_nothing
-        %form{:action =>"test_client",:method =>"post",:id => "form"}
+        %form{:action =>"chat",:method =>"post",:id => "form"}
             %input{:type => "hidden",:name => "chat_f",:id => "chat_f",:value => "123"}
             -#%button{:type => "submit"} submit

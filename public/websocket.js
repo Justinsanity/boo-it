@@ -10,23 +10,14 @@ $(document).ready(function(){
          //
          // need to design a friends list here!
          //
-         // ***friendship list***
          if ((tmp[0] == u_name && tmp[1] == f_name) || (tmp[0] == f_name && tmp[1] == u_name)){
-             // identify whose message . default: document.getElementById 
-             //if(u_name == "test2" || u_name == "test"){
-             //    $("#msg").append("<p>"+evt.data+"</p>");
-             //}
              $("#msg").append("<p>"+evt.data+"</p>");
          }
-         //$("#msg").append("<p>"+evt.data+"</p>");
     };
     ws.onclose = function() { debug("socket closed"); };
     ws.onopen = function() {
       debug("connected...");
-      //ws.send("hi");
       //ws.send("hello server,I am client!");
-      //ws.send("sshello server,I am client!");
-      //ws.send(testNum);
     };
 });
 

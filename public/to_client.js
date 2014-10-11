@@ -1,10 +1,6 @@
 $(document).ready(function(){
     $(".friends").dblclick(function(){
-        //$(this).text();
-        //$("#chat_f").attr($(this).text());
-        //$("#chat_f").attr(new);
         $("#chat_f").val($(this).text());
         $("#form").submit();
-        //window.location='/test_client';
     });
 });

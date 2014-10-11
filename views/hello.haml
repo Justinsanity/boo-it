@@ -1,0 +1,11 @@
+!!!
+%html
+    %head
+        %title login
+    %body
+        %form{:action => "login",:name => "login", :method => "post"}
+            .username username:
+            %input{:type => "text" , :name => "username"}
+            .password password:
+            %input{:type => "password", :name => "password"}
+            %input{:type => "submit" , :value => "login"}
