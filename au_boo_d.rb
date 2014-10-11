@@ -22,13 +22,13 @@ end
 #
 helpers do 
     # lookup for id
-    def object_id val
+    def mongo_id val
         BSON::ObjectId.from_string(val)
     end
 
     # find password from id
     def password_by_id id
-        id = object_id(id) if String === id
+        id = mongo_id(id) if String === id
             @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
         parsed = JSON.parse(@obj)
         @password = parsed["password"]
@@ -36,7 +36,7 @@ helpers do
 
     # find username from id
     def username_by_id id
-        id = object_id(id) if String === id
+        id = mongo_id(id) if String === id
             @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
         parsed = JSON.parse(@obj)
         return parsed["username"].to_s
@@ -44,7 +44,7 @@ helpers do
 
     # find friends from id
     def friends_by_id id
-        id = object_id(id) if String === id
+        id = mongo_id(id) if String === id
             @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
         parsed = JSON.parse(@obj)
         
@@ -55,7 +55,6 @@ helpers do
         else
             return friends.to_json
         end
-        #"#{friends.}"
     end
 
     # find history msg from history_id
@@ -68,8 +67,6 @@ helpers do
             his_parsed = JSON.parse(@history_obj)
             ch_log = his_parsed["dialog"]
             return ch_log.to_json
-            #p "-----#{ch_log.to_json.to_s}------------"
-            
         end
     end
 
@@ -80,7 +77,7 @@ helpers do
         @lookup_result = settings.mongo_db['accounts'].find_one(:username => name).to_json
         if @lookup_result.to_s == "null"
             session.clear
-            "NOT FOUND ACCOUNT!"
+            haml :notfound
         else
            parsed = JSON.parse(@lookup_result)
   	   @password_l = parsed["password"]
@@ -89,7 +86,7 @@ helpers do
                # need to make a ticket sender server
  	       #"show password: #{@password_l}" 
                session[:id] = @session_id
-               redirect 'client'
+               redirect 'friends'
                #"#{parsed["_id"]["$oid"]}"
            else
                # need to make a simeple error redirect page
@@ -102,18 +99,17 @@ end
 #
 # action to direct to client to boo !
 #
-get '/client' do
+get '/friends' do
     if session[:id] == nil
         session.clear
         redirect 'hello'
     else 
         # MUST to design a random key to hash the session
-        if session[:id].to_s.eql?(object_id(session[:id]).to_s) 
+        if session[:id].to_s.eql?(mongo_id(session[:id]).to_s) 
             # this part needs a algorithm to send ticket mechanism           
             login_usr = username_by_id(session[:id])
             friends_json = friends_by_id(session[:id])
-            #erb :client , :locals => {:user_name => "#{login_usr}",:friends_list => friends_json}
-            haml :test , :locals => {:user_name => "#{login_usr}",:friends_list => friends_json}
+            haml :friends_list , :locals => {:user_name => "#{login_usr}",:friends_list => friends_json}
         else
             # this part need to some soliutions
             # 1: clean session(comparison)
@@ -124,23 +120,18 @@ get '/client' do
             "You are not permissioned to login!"
         end
     end
-    #erb :client
 end
 #
-# test_client
+# client for Boo-it chating!
 #
-post '/test_client' do
-    #"hello #{params[:chat_f]}"
+post '/chat' do
     if session[:id] == nil
         session.clear
         redirect 'hello'
     else
-        # MUST to design a random key to hash the session
-        if session[:id].to_s.eql?(object_id(session[:id]).to_s)
+        if session[:id].to_s.eql?(mongo_id(session[:id]).to_s)
             # this part needs a algorithm to send ticket mechanism           
             login_usr = username_by_id(session[:id])
-            #"hello #{params[:chat_f]}"
-
             # history send!
             historyid = []
             historyid.push(login_usr.to_s)
@@ -148,8 +139,7 @@ post '/test_client' do
             sort_his_id = historyid.sort
             q_history_id = sort_his_id[0].to_s + sort_his_id[1].to_s
             history_json = history_by_id(q_history_id)
-
-            haml :friends_ch , :locals => {:user_name => "#{login_usr}",:friend_name => params[:chat_f],:history_msg => history_json}
+            haml :chat , :locals => {:user_name => "#{login_usr}",:friend_name => params[:chat_f],:history_msg => history_json}
         else
             "You are not permissioned to login!"
         end
@@ -167,31 +157,6 @@ end
 #
 get '/redirect' do
     haml :redirect
-end
-#
-# friends list route for TEST!!!!!
-#
-get '/friends' do
-    if session[:id] == nil
-        session.clear
-        redirect 'hello'
-    else
-        if URI(request.referrer || '').path == '/redirect'
-            # find friends logic
-            if session[:id].to_s.eql?(object_id(session[:id]).to_s)
-                friends_json = friends_by_id(session[:id])
-
-                # here must sent to client as friends list /views
-                "#{friends_json}"
-            else
-                "Not permissioned!"
-            end
-        else 
-            # from somewhere i don't know , so clean the session.
-            session.clear
-            redirect  'hello'
-        end
-    end
 end
 #
 # logout and clean the session
@@ -219,10 +184,10 @@ end
 # show index
 #
 get '/hello' do
-    erb :index
+    haml :hello
 end
 #
-# login test
+# login
 #
 post '/login' do
     @username = params[:username]
@@ -230,6 +195,14 @@ post '/login' do
     
     check_username(params[:username],params[:password])
     #erb :result
+end
+#
+# if Page NOT FOUND
+#
+# 404 Error!
+not_found do
+    status 404
+    haml :page_404
 end
 #
 # mongoDB test
@@ -249,11 +222,3 @@ get '/test' do
     end
 end
 
-get '/test_s' do
-    session[:tmp] = "session_456"
-end
-
-get '/test_l' do 
-    session.clear
-    "session clear!"
-end
