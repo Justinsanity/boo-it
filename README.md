@@ -18,7 +18,7 @@ This README would normally document whatever steps are necessary to get your app
 	* Gem Packages: sinatra, em-websocket, mongo(module) , bson_ext
 	* Others: MongoDB
 * `Database configuration`: you need 2 collections(tables) to try this project. Please named the database "Boo" and create a collection with name "accounts" manually. The fields of accounts is {username, password, friends_list}. And initialize at least 2 users with username, password and relationship. **Note that you don't need to create collection named "dialog" previously.**
-
+	* An alternative is use our sample database dump. You can find it in root directory of this project. Open your terminal and come to here, use `mongorestore Boo`, then all goes well.
 * How to run tests
 * Deployment instructions
 
