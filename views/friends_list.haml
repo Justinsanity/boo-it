@@ -23,7 +23,10 @@
                 %h1{:id => "username"} Hi, #{locals[:user_name]} !
                 -#%p{:id => "session_name"} #{session[:tmp].inspect}
                 %p 
-                    %h3 Please choose  a friend
+                    %h3 
+                        Please 
+                        %strong{} DOUBLE CLICK
+                        to choose  a friend
                 %table{:class => "table table-hover"}
                     - JSON.parse(friends_list).each do |f|            
                         %tr{:id => "#{f.to_s}", :align => "center"}
