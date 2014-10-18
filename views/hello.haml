@@ -1,11 +1,18 @@
 !!!
 %html
-    %head
-        %title login
-    %body
-        %form{:action => "login",:name => "login", :method => "post"}
-            .username username:
-            %input{:type => "text" , :name => "username"}
-            .password password:
-            %input{:type => "password", :name => "password"}
-            %input{:type => "submit" , :value => "login"}
+	%head
+		%title login
+		%link{:href => "bootstrap/bootstrap.min.css", :rel => "stylesheet"}        
+		%script{:type => "text/javascript",:src => "bootstrap/bootstrap.min.js"}
+	%body
+		%br/
+		.container
+			%form.form-signin{:action => "login",:name => "login", :method => "post", :role => "form"}
+				%br/
+				.username username
+				%input{:type => "text" , :name => "username", :class => "form-control"}
+				%br/
+				.password password
+				%input{:type => "password", :name => "password", :class => "form-control"}
+				%br/
+				%button{:class => "btn btn-lg btn-primary btn-block", :type => "submit"}Login
