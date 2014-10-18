@@ -5,14 +5,27 @@
 		%link{:href => "bootstrap/bootstrap.min.css", :rel => "stylesheet"}        
 		%script{:type => "text/javascript",:src => "bootstrap/bootstrap.min.js"}
 	%body
+		%nav{:class => "navbar navbar-inverse navbar-fixed-top", :role => "navigation"}            
+			.container
+				.navbar-header  
+					.navbar-brand    
+						%span Boo it!
+		%br/
+		%br/
 		%br/
 		.container
-			%form.form-signin{:action => "login",:name => "login", :method => "post", :role => "form"}
-				%br/
-				.username username
-				%input{:type => "text" , :name => "username", :class => "form-control"}
-				%br/
-				.password password
-				%input{:type => "password", :name => "password", :class => "form-control"}
-				%br/
-				%button{:class => "btn btn-lg btn-primary btn-block", :type => "submit"}Login
+			.logo{:style => "text-align: center"}
+				%img{:src => "images/logo.png", :class => "img-rounded"}		
+		.container-fluid	
+			.col-md-5{:style => "text-align: center; float: none; margin: auto"}				
+				%form.form-signin{:action => "login",:name => "login", :method => "post", :role => "form"}
+					%br/
+					.username 
+						%strong Username
+					%input{:type => "text" , :name => "username", :class => "form-control"}
+					%br/
+					.password 
+						%strong Password
+					%input{:type => "password", :name => "password", :class => "form-control"}
+					%br/
+					%button{:class => "btn btn-primary btn-lg", :type => "submit"}Login

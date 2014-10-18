@@ -1,9 +1,9 @@
 !!!5
 %html
     %head
-        %script{:type => "text/javascript",:src => "jquery.min.js"}
-        %script{:type => "text/javascript",:src => "websocket.js"}
-        %script{:type => "text/javascript",:src => "send.js"}     
+        %script{:type => "text/javascript",:src => "js/jquery.min.js"}
+        %script{:type => "text/javascript",:src => "js/websocket.js"}
+        %script{:type => "text/javascript",:src => "js/send.js"}     
         %script{:type => "text/javascript",:src => "bootstrap/bootstrap.min.js"}
         %link{:href => "bootstrap/bootstrap.min.css", :rel => "stylesheet"}   
         -#:javascript
@@ -16,8 +16,7 @@
         %input{:type => "button",:onclick => "booFunction()", :value => "Boo it!"}
         .content{:id => "debug"}
         .dialog{:id => "history_msg"}
-            - JSON.parse(history_msg).each do |m|
-            - tmpStr = m['from'].to_s + "," + m['to'].to_s + "," + m['log'].to_s
-            %p{}= tmpStr
+            - JSON.parse(history_msg).each do |m|          
+            %div{}= m['from'].to_s + ": " + m['log'].to_s
             - end unless @do_nothing
         .dialog{:id => "msg"}

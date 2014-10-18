@@ -2,16 +2,16 @@
 %html
     %head
         %title Friends
-        %script{:type => "text/javascript",:src => "jquery.min.js"}
-        %script{:type => "text/javascript",:src => "to_client.js"}
+        %script{:type => "text/javascript",:src => "js/jquery.min.js"}
+        %script{:type => "text/javascript",:src => "js/to_client.js"}
         %script{:type => "text/javascript",:src => "bootstrap/bootstrap.min.js"}
         %link{:href => "bootstrap/bootstrap.min.css", :rel => "stylesheet"}
     %body
         %nav{:class => "navbar navbar-inverse navbar-fixed-top", :role => "navigation"}            
             .container
                 .navbar-header
-                    %a{:class => "navbar-brand", :href => "#"}
-                        %span{:class =>"glyphicon glyphicon-chevron-left", :href =>"#"}            
+                    %a{:class => "navbar-brand", :href => "/hello"}
+                        %span{:class =>"glyphicon glyphicon-chevron-left"}            
                 .navbar-brand    
                     %span Your Friends 
         %br/
