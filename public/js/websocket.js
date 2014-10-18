@@ -10,9 +10,11 @@ $(document).ready(function(){
          //
          // need to design a friends list here!
          //
-         if ((tmp[0] == u_name && tmp[1] == f_name) || (tmp[0] == f_name && tmp[1] == u_name)){
-             $("#msg").append("<div>"+ tmp[0] + ": "+ tmp[2] + "</div>");
-         }
+         if (tmp[0] == u_name && tmp[1] == f_name)
+            $("#msg").append("<div align='right'>"+ tmp[0] + ": "+ tmp[2] + "</div>");
+         else if (tmp[0] == f_name && tmp[1] == u_name)
+            $("#msg").append("<div align='left'>"+ tmp[0] + ": "+ tmp[2] + "</div>");
+         
     };
     ws.onclose = function() { debug("socket closed"); };
     ws.onopen = function() {

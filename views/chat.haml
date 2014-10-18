@@ -9,14 +9,25 @@
         -#:javascript
         %title Boo it!
     %body
-        .content{:id => "usr_name" , :value => "#{user_name.to_s}"}= user_name
-        %a talk to friends:
-        %strong{:id => "fri_name" , :value => "#{friend_name.to_s}"}= friend_name
-        %input{:type => "text" , :id => "boo" , :name => "boo"}
-        %input{:type => "button",:onclick => "booFunction()", :value => "Boo it!"}
-        .content{:id => "debug"}
-        .dialog{:id => "history_msg"}
-            - JSON.parse(history_msg).each do |m|          
-            %div{}= m['from'].to_s + ": " + m['log'].to_s
-            - end unless @do_nothing
-        .dialog{:id => "msg"}
+        %nav{:class => "navbar navbar-inverse navbar-fixed-top", :role => "navigation"}            
+            .container
+                .navbar-header  
+                    .navbar-brand    
+                        %span{:id => "usr_name", :value => "#{user_name.to_s}"}=user_name
+        %br/
+        %br/
+        %br/
+        .container
+            -#.content{:id => "usr_name" , :value => "#{user_name.to_s}"}= user_name
+            -# TODO: Make following link tobe a list of other friends
+            %a talk to friends:             
+            %strong{:id => "fri_name" , :value => "#{friend_name.to_s}"}= friend_name
+            %input{:type => "text" , :id => "boo" , :name => "boo"}
+            %input{:type => "button",:onclick => "booFunction()", :value => "Boo it!"}
+            .content{:id => "debug"}
+            .dialog{:id => "history_msg"}
+                - JSON.parse(history_msg).each do |m|   
+                - side = (m['from'].to_s == user_name) ? "right" : "left"
+                %div{:align => side }= m['from'].to_s + ": " + m['log'].to_s
+                - end unless @do_nothing
+            .dialog{:id => "msg"}
