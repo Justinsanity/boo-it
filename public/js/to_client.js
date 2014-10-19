@@ -1,5 +1,5 @@
 $(document).ready(function(){
-    $(".table tr td").dblclick(function(){
+    $(".table tr td").click(function(){
         $("#chat_f").val($(this).text());
         $("#form").submit();
     });
