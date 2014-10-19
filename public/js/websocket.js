@@ -4,7 +4,7 @@
 // this script uesd the jQuery technology
 $(document).ready(function(){
     function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
-    ws = new WebSocket("ws://127.0.0.1:8080");
+    ws = new WebSocket("ws://fancy.cs.nccu.edu.tw:8080");
     ws.onmessage = function(evt) {
          var tmp = evt.data.split(",")
          //
