@@ -10,6 +10,9 @@ include Mongo
 #
 configure do 
     enable :sessions
+    
+    # set for external connection
+    set :bind, '0.0.0.0'
 
     # this place must implement a random secret key generation
     set :session_secret, 'booit' 
