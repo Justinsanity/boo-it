@@ -59,5 +59,9 @@ There are 2 servers serving for service, au\_boo\_d.rb and ch\_boo\_d.rb. The fo
 
 When a connection is built. It initially located at root directory(/). There is no service in root directory, so the controller(au\_boo\_d.rb) will redirect it to page "logout". Since it logout(or say, not actually logout, it just visit this site currently), the page will redirect it to hello.haml, which provides a login portal for users.
 
-### Demo
-Video available here: [http://youtu.be/ClpJUteLMJM](http://youtu.be/ClpJUteLMJM)
+### Demo Video
+* [Simple Demo](http://youtu.be/ClpJUteLMJM)
+* [Second Progress Demo](https://www.youtube.com/watch?v=ClpJUteLMJM)
+* [Install on Firefox OS](https://www.youtube.com/watch?v=bqGWc-4Cyno)
+* [Boo it runs on Firefox OS](https://www.youtube.com/watch?v=Cp1D8nkxD2o)
+* [iOS and Android](https://www.youtube.com/watch?v=mgj62ozU00Y)
