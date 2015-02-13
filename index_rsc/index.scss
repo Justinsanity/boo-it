@@ -1,0 +1,57 @@
+
+body{
+	background-color: #181818;
+}
+
+.left{
+	top: 0;
+	left: 0;	
+	width: 40%;
+	height: 100%;
+	position: fixed;
+	background-color: black;
+}
+
+.right{
+	top: 3%;
+	left: 50%;
+	position: fixed;
+}
+
+#logo{
+	width: 100%;
+	height: 50%;
+}
+
+.head{	
+	position: fixed;
+	left: 38%;	
+	height: 50px;
+	width: 50px;
+	border-radius: 100%;
+	border-style: solid;	
+	border-color: #330099;
+	
+	&#sirius{
+		top: 40%;			
+	}
+	&#veck{
+		top: 50%;	
+	}
+}
+
+.line{
+	position: fixed;
+	left: 35%;
+	height: 30px;
+	width: 15px;
+	color: white;
+
+	&#sirius{
+		top: 40%;			
+	}
+	&#veck{
+		top: 50%;	
+	}
+}
+

@@ -2,42 +2,50 @@
 <html>
 	<head>
 		<title>iThome 第7屆鐵人賽 - 練習如何去開發一個通訊軟體 Boo it!</title>
-		<script type="text/javascript" src="*.js"></script>
-		<link href="*.css" rel="stylesheet" type="text/css">
+		<script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+		<script type="text/javascript" src="index_rsc/index.js"></script>
+		<script type="text/javascript" src="index_rsc/dist/semantic.js"></script>
+		<link href="index_rsc/index.css" rel="stylesheet" type="text/css">
+		<link href="index_rsc/dist/semantic.css" rel="stylesheet" type="text/css">		
 	</head>
 	<body>
-		<ol>
-			<li><a href="http://ithelp.ithome.com.tw/question/10156379">Day1 - Boo it 介紹</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10156489">Day2 – 開發環境 Virtual Machine Ubuntu 14.04 LTS</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10156379">Day3 - 雲端作業系統編輯環境 koding 介紹</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10156705">Day4 – 鐵人比賽用到的相關指令(Boo it)</a></li>		
-			<li><a href="http://ithelp.ithome.com.tw/question/10156838">Day5 - Bitbucket 介紹</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10156944">Day6 - Bitbucket 與 Git 的邂逅</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10157026">Day 7 – Ruby 一個快樂的語言!
-</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10157166">Day8 – Let's smoking "Sinatra" 一個輕量的網頁框架</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10157406">Day – 9 HTML5 簡介</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10157611">Day10 - App 與 Web 世界的明日之星 JavaScript</a></li>
-			<li><a href="http://ithelp.ithome.com.tw/question/10157849">Day11 - jQuery – JaveScript 的魔術!</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10157983">Day12 – WebSocket 新的戰爭已經開始! 不再飛鴿傳書，改用電話!</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10158160">Day13 – EM-websocket 電話總機，總是要有人當傳話筒麻!</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10158377">Day14 - JSON - 資料交換的秘密武器!</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10158601">Day15 - HAML ! 寫份HTML文件邁向藝術的境界</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10158830">Day16 - MongoDB ‧ 資料儲存的百寶箱!</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10159024">Day 17 – Sinatra 與MongoDB的約會!</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10159187">Day18 - 交換訊息中心 Boo it - chat_server</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10159339">Day 19 Boo-it Au_server - 1 序曲</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10159479">Day 20 Boo-it Au_server - 2 續章。</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10159657">Day 21 Boo-it Au_server – 3 終曲</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10159836">Day22 - 歷史訊息。記錄每一個對話過程</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160054">Day23 - Boo-it 架構</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160173">Day 24 - 程式設計師的福音，網頁前端套件包 Twitter Bootstrap</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160305">Day25 - 適者生存，會根據環境自我調整的版面設計 Responsive Design</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160511">Day26 - 分久必和，行動作業系統跨平台整合開發工具 Phonegap</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160584">Day27 - Open Source + Mobile OS + Web Technology => Firefox OS</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160726">Day28 - Security 保密工作，人人有責</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160866">Day29 - 歷史的指標 記錄著設計boo-it的過程。</a></li>
-				<li><a href="http://ithelp.ithome.com.tw/question/10160924">Day30 – 最後， Let’s Boo it !</a></li>				
-		</ol>
+		<div class="left"><img src="index_rsc/logo.png" id='logo'></div>
+		<div class="line" id="sirius">Sirius<div class="head" id="sirius" ><!--link photo--></div></div>
+		<div class="line" id="veck">Veck<div class="head" id="veck"><!--link photo--></div></div>
+
+		<!-- TODO: Add boo-it logo and introduction. -->
+
+		<div class="right ui list"> <!-- link color override by line 10249 in semantic.css -->
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10156379"> Day1 - Boo it 介紹</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10156489"> Day2 – 開發環境 Virtual Machine Ubuntu 14.04 LTS</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10156379"> Day3 - 雲端作業系統編輯環境 koding 介紹</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10156705"> Day4 – 鐵人比賽用到的相關指令(Boo it)</a></div>		
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10156838"> Day5 - Bitbucket 介紹</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10156944"> Day6 - Bitbucket 與 Git 的邂逅</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10157026"> Day 7 – Ruby 一個快樂的語言!</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10157166"> Day8 – Let's smoking "Sinatra" 一個輕量的網頁框架</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10157406"> Day – 9 HTML5 簡介</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10157611"> Day10 - App 與 Web 世界的明日之星 JavaScript</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10157849"> Day11 - jQuery – JaveScript 的魔術!</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10157983"> Day12 – WebSocket 新的戰爭已經開始! 不再飛鴿傳書，改用電話!</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10158160"> Day13 – EM-websocket 電話總機，總是要有人當傳話筒麻!</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10158377"> Day14 - JSON - 資料交換的秘密武器!</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10158601"> Day15 - HAML ! 寫份HTML文件邁向藝術的境界</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10158830"> Day16 - MongoDB ‧ 資料儲存的百寶箱!</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10159024"> Day 17 – Sinatra 與MongoDB的約會!</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10159187"> Day18 - 交換訊息中心 Boo it - chat_server</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10159339"> Day 19 Boo-it Au_server - 1 序曲</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10159479"> Day 20 Boo-it Au_server - 2 續章。</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10159657"> Day 21 Boo-it Au_server – 3 終曲</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10159836"> Day22 - 歷史訊息。記錄每一個對話過程</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160054"> Day23 - Boo-it 架構</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160173"> Day 24 - 程式設計師的福音，網頁前端套件包 Twitter Bootstrap</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160305"> Day25 - 適者生存，會根據環境自我調整的版面設計 Responsive Design</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160511"> Day26 - 分久必和，行動作業系統跨平台整合開發工具 Phonegap</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160584"> Day27 - Open Source + Mobile OS + Web Technology => Firefox OS</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160726"> Day28 - Security 保密工作，人人有責</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160866"> Day29 - 歷史的指標 記錄著設計boo-it的過程。</a></div>
+			<div class="item"><a href="http://ithelp.ithome.com.tw/question/10160924"> Day30 – 最後， Let’s Boo it !</a></div>		
+		</div>
 	</body>
 </html>
