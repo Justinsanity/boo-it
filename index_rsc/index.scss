@@ -1,6 +1,6 @@
 
 body{
-	background-color: #181818;
+	background-color: #181818;	/* commented line 520 in semantic.css to avert override */
 }
 
 .left{
@@ -10,6 +10,7 @@ body{
 	height: 100%;
 	position: fixed;
 	background-color: black;
+	text-align: center;
 }
 
 .right{
@@ -19,8 +20,13 @@ body{
 }
 
 #logo{
-	width: 100%;
-	height: 50%;
+	width: 420px;
+	height: 350px;
+}
+
+#icon{
+	width: 118px;
+	height: 120px;
 }
 
 .head{	
@@ -55,3 +61,14 @@ body{
 	}
 }
 
+section{
+	color: white;
+	font-size: 20px;
+	font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
+}
+
+footer {
+	color: white;
+	position: relative;
+	margin-top: 150px;
+}

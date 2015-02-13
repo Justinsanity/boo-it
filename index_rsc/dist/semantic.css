@@ -517,7 +517,7 @@ body {
   margin: 0px;
   padding: 0px;
   min-width: 278px;
-  background: #f7f7f7;
+  /*background: #f7f7f7;*/
   font-family: 'Lato', 'Helvetica Neue', Arial, Helvetica, sans-serif;
   font-size: 14px;
   line-height: 1.33;
@@ -10246,7 +10246,7 @@ ol.ui.list ol,
 
 .ui.list .item a {
   cursor: pointer;
-  color: rgba(153, 51, 0, 0.8) !important;
+  color: rgba(255, 102, 0, 0.8) !important;
 }
 
 .ui.list .item a:hover {
