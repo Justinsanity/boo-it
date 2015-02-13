@@ -37,12 +37,12 @@ body{
 	border-radius: 100%;
 	border-style: solid;	
 	border-color: #330099;
-	
+
 	&#sirius{
-		top: 40%;			
+		background-image: url("sirius.png");
 	}
 	&#veck{
-		top: 50%;	
+		background-image: url("veck.jpg");		
 	}
 }
 
@@ -52,13 +52,16 @@ body{
 	height: 30px;
 	width: 15px;
 	color: white;
+}
 
-	&#sirius{
-		top: 40%;			
-	}
-	&#veck{
-		top: 50%;	
-	}
+#sirius{
+	top: 40%;
+	background-size: 40px;
+}
+
+#veck{	
+	top: 50%;
+	background-size: 40px;	
 }
 
 section{

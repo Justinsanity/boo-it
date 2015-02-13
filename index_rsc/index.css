@@ -33,9 +33,9 @@ body {
   border-style: solid;
   border-color: #330099; }
   .head#sirius {
-    top: 40%; }
+    background-image: url("sirius.png"); }
   .head#veck {
-    top: 50%; }
+    background-image: url("veck.jpg"); }
 
 .line {
   position: fixed;
@@ -43,10 +43,14 @@ body {
   height: 30px;
   width: 15px;
   color: white; }
-  .line#sirius {
-    top: 40%; }
-  .line#veck {
-    top: 50%; }
+
+#sirius {
+  top: 40%;
+  background-size: 40px; }
+
+#veck {
+  top: 50%;
+  background-size: 40px; }
 
 section {
   color: white;
