@@ -39,7 +39,7 @@ EM.run {
     ws.onopen { |handshake|
       puts "WebSocket connection open"
       # first message to subscribe channel
-      @sid << @channel.subscribe {|msg|
+      @sid << @channel.subscribe {|msg| # "sid << channel" means appending result of channel to sid
           #puts "XXX"
           puts "received:" + msg + "---"
           ws.send msg # send itself

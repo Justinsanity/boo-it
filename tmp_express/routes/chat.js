@@ -6,10 +6,18 @@ var Dialog = mongoose.model('dialog');
 mongoose.Promise = global.Promise;
 var router = express.Router();
 
-router.ws('/history', function(req, res){
-    var history = req.body.history;
+/*
+router.ws('/', function(ws, req) {
+  ws.on('message', function(msg) {
+    console.log(msg);
+  });
+  console.log('socket', req.testing);
+});
+*/
+
+function writeDialog(msg){
     var _currentTime = Date.now();
-    var _logAry = history.split(',');          // "from, to, log"
+    var _logAry = msg.split(',');          // "from, to, log"
     var _sortAry = ([_logAry[0], _logAry[1]]).sort();
     var _did = _sortAry[0] + _sortAry[1]; // calcuate next id
     
@@ -39,51 +47,39 @@ router.ws('/history', function(req, res){
             data.save();
         }
     })
-});
-
-router.ws('/', function(ws, req) {
-  ws.on('message', function(msg) {
-    console.log(msg);
-  });
-  console.log('socket', req.testing);
-});
-
-/*
-#
-# chat server 
-#
-puts "Server is listening!..."
-@uid = []
-@sid = []
-@channel_list = []
-
-EM.run {
-    @channel = EM::Channel.new
-  EM::WebSocket.run(:host => "0.0.0.0", :port => 8080) do |ws|
-    ws.onopen { |handshake|
-      puts "WebSocket connection open"
-      # first message to subscribe channel
-      @sid << @channel.subscribe {|msg|
-          #puts "XXX"
-          puts "received:" + msg + "---"
-          ws.send msg # send itself
-          puts "history record"
-      }
-      tid = @sid.last
-      puts "#{@sid.last} connect!"
-      ws.onmessage {|msg|
-          @uid = msg.split(/,/)
-          @channel.push "#{msg}"
-          boo_log(msg.to_s)
-      }
-
-      ws.onclose {
-          @channel.unsubscribe(tid)
-          puts "#{tid} conection closed!"
-      }
-    }  # onopen end
-  end
 }
-*/
+
+var uid = []
+var sid = []
+var channel_list = []
+
+router.ws('/chat', function(ws, req){
+    ws.on('open', function(handshake){
+        console.log("WebSocket connection open");
+        
+        // get history?
+        //   # first message to subscribe channel   
+        //   sid << @channel.subscribe {|msg|
+        //       #puts "XXX"
+        //       puts "received:" + msg + "---"
+        //       ws.send msg # send itself
+        //       puts "history record"
+        //   }
+        
+        var tid = sid.last;
+        console.log(tid, 'connect!');
+        
+        ws.on('message', function(msg){
+            var uid = msg.split(/,/);   // RegExpr
+            // channel.push(msg);
+            writeDialog(msg);
+        }); // end of on message
+        
+        ws.on('close', function(){
+            // channel.unsubscribe(tid);
+            console.log(tid, 'connection closed!');
+        }); //end of on close
+    })// end of on open
+});
 
 module.exports = router;
