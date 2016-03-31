@@ -1,35 +1,27 @@
 require('./db'); // db.js should be called before others being called so that other sevices can access to database
-
 var express = require('express');
 var path = require('path');
-var cookieParser = require('cookie-parser');
-var bodyParser = require('body-parser');
 var http = require('http');
 
 /* routers */
 var index = require('./routes/index');
-var chat = require('./routes/index');
-
+var chat = require('./routes/chat');
 var app = express();
-var expressWs = require('express-ws')(app);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'ejs');
+// app.engine('.haml', require('hamljs').renderFile);
+// app.set('view engine', 'ejs');
+app.set('view engine', 'hamljs');
 
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
-app.use(express.static(path.join(__dirname, 'public')));
-
-// catch 404 and forward to error handler
+// 404 and forward to error handler
 app.use(function(req, res, next) {
     var err = new Error('Not Found');
     err.status = 404;
     next(err);
 });
 
-// development error handler, will print stacktrace
+// DEVELOPMENT ERROR handler, will print stacktrace
 if (app.get('env') === 'development') {
     app.use(function(err, req, res, next) {
         res.status(err.status || 500);
@@ -40,7 +32,7 @@ if (app.get('env') === 'development') {
     });
 }
 
-// production error handler, no stacktraces leaked to user
+// PRODUCTION ERROR handler, no stacktraces leaked to user
 app.use(function(err, req, res, next) {
     res.status(err.status || 500);
     res.render('error', {
@@ -50,7 +42,7 @@ app.use(function(err, req, res, next) {
 });
 
 
-app.get('/', index);
-app.ws('/', chat);
+app.use('/', index);
+app.use('/chat', chat);
 
 module.exports = app;

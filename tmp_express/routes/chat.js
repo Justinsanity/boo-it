@@ -5,6 +5,7 @@ var Dialog = mongoose.model('dialog');
 
 mongoose.Promise = global.Promise;
 var router = express.Router();
+var expressWs = require('express-ws')(router);
 
 /*
 router.ws('/', function(ws, req) {

@@ -12,7 +12,8 @@ router.get('/', function(req, res){
 
 /* action to direct to client to boo ! */
 router.get('/friend', function(req, res){
-    if(session[id] == nil){
+    // if(session[id] == nil){
+    if(session[id] == undefined){
         // session.clear
         res.redirect('/');
     } else {
@@ -130,3 +131,5 @@ router.get('/test_client', function(req, res){
     // session.clear
     res.redirect('/');
 });
+
+module.exports = router;

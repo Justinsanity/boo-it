@@ -1,0 +1,17 @@
+{
+  "name": "boo-it-server",
+  "version": "1.0.0",
+  "scripts": {
+    "start": "node ./bin/www"
+  },
+  "dependencies": {
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "express-ws": "^1.0.0",
+    "hamljs": "^0.6.2",
+    "mongoose": "^4.4.10"
+  },
+  "devDependencies": {
+    "debug": "^2.2.0"
+  }
+}
