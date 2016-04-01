@@ -40,7 +40,11 @@ This README would normally document whatever steps are necessary to get your app
  	* views - contains all pages that display works. most of them implemented in HAML format.
   	* public - contains all resource, such as images, Javascript, and CSS.
 4. Database: MongoDB
-
+    * DB: Boo
+    * Table:
+        * accounts
+        * dialog
+    
 ### Working flow
 1. `npm start`
 2. Open your browser with 2 tabs.

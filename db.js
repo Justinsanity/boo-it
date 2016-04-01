@@ -5,7 +5,7 @@
  
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var uristring = 'mongo://localhost:27017/Boo';
+var uristring = 'mongodb://localhost:27017/Boo';
 
 var Content = new schema({
     from : String,
@@ -13,12 +13,21 @@ var Content = new schema({
     datetime: Date,
     content : String
 });
-var dialog = new schema({		// define schema for wait table
+var Dialog = new schema({		// define schema for wait table
     did   : String,             // dialog id
     dialog: [Content]
 });
+mongoose.model('dialogs', Dialog);	// register model
 
-mongoose.model('dialog', dialog);	// register model
+
+var Account = new schema({
+    uid     : Number,
+    username: String,
+    password: String,   // tmp
+    friends : Array
+});
+mongoose.model('accounts', Account);
+
 mongoose.connect(uristring, function(err, res){ // connect with uri
   if(err) { 
     console.log('ERROR connected to: ' + uristring);

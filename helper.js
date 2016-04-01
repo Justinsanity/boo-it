@@ -1,47 +1,58 @@
-    
-// lookup for id
-function mongo_id(val){    
-    // BSON::ObjectId.from_string(val)
-}
+require('./db');
+var mongo = require('mongoose');
+mongo.Promise = global.Promise;
+var Account = mongo.model('accounts');
+var Dialog = mongo.model('dialogs');
 
-// find password from id
-function password_by_id(id){
-    /*
-    id = mongo_id(id) if String === id
-        @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
-    parsed = JSON.parse(@obj)
-    @password = parsed["password"]
-    */
-}
+function Helper(){}
 
-// find username from id
-function username_by_id(id){
- /*
-        id = mongo_id(id) if String === id
-            @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
-        parsed = JSON.parse(@obj)
-        return parsed["username"].to_s
-*/
-}
+Helper.prototype = {
+    // lookup for id    //???
+    // function mongo_id(val){
+    //     // BSON::ObjectId.from_string(val)
+    // }
 
-// find friends from id
-function friends_by_id(id){
+    // find password by id
+    password_by_id: function(uid){
         /*
         id = mongo_id(id) if String === id
             @obj = settings.mongo_db['accounts'].find_one(:_id => id).to_json
         parsed = JSON.parse(@obj)
-        
-        friends = parsed['friends']
-        
-        if(friends == undefined)
-            return nil.to_a.to_json
-        else
-            return friends.to_json
+        @password = parsed["password"]
         */
-}
-
-// find history msg from history_id
-function history_by_id(id){
+    },
+    // find username by id
+    username_by_id: function(uid, callback){
+        Account.findOne({uid: uid}).exec()
+            .catch(function(err){
+                console.log('err: ' + err);
+            })
+            .then(function(data) {
+                if(callback && typeof callback === 'function'){
+                    if(data.length === 0)
+                        callback(0);
+                    else
+                        callback(data.username);
+                }
+            })
+    },
+    // find friends by id
+    friends_by_id: function(uid, callback){
+        Account.findOne({uid: uid}).exec()
+            .catch(function(err){
+                console.log('err: ' + err);
+            })
+            .then(function(data) {
+                if(callback && typeof callback === 'function'){
+                    if(data.length == 0)
+                        callback(0)
+                    else
+                        callback(data.friends);
+                }
+            });
+    },
+    // find history msg by history_id
+    history_by_id: function(uid){
     /*
         @history_obj = settings.mongo_db['dialog'].find_one(:did => id).to_json
         #p "`````#{@history_obj.to_s}`````"
@@ -52,28 +63,27 @@ function history_by_id(id){
             ch_log = his_parsed["dialog"]
             return ch_log.to_json
       */
+    },
+    //   check username exists 
+    check_username: function(name, pwd, callback){
+        
+        Account.findOne({username: name}).exec()
+            .catch(function(err){
+                console.log("error " + err);
+            })
+            .then(function(data){
+                if(callback && typeof callback === 'function'){
+                    if(data == undefined){
+                      callback(-1); // account not found
+                    } else if(data.password != pwd) {
+                        callback(-2); // password incorrect
+                    } else {
+                        console.log(data);
+                        callback(data.uid);
+                    } 
+                }
+            });
+    }
 }
 
-//   check username exists 
-function check_username(name, pwd){
-    /*
-        @lookup_result = settings.mongo_db['accounts'].find_one(:username => name).to_json
-        if @lookup_result.to_s == "null"
-            session.clear
-            haml :notfound
-        else
-           parsed = JSON.parse(@lookup_result)
-  	   @password_l = parsed["password"]
-           @session_id = parsed["_id"]["$oid"]
-           if @password_l.eql?(pwd)
-               # need to make a ticket sender server
- 	       #"show password: #{@password_l}" 
-               session[:id] = @session_id
-               redirect 'friends'
-               #"#{parsed["_id"]["$oid"]}"
-           else
-               # need to make a simeple error redirect page
-               session.clear
-               redirect 'hello'
-    */
-}
+module.exports = Helper;

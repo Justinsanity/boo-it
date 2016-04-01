@@ -1,9 +1,9 @@
 
 var express = require('express');
-var mongoose = require('mongoose');
-var Dialog = mongoose.model('dialog');
+var mongo = require('mongoose');
+var Dialog = mongo.model('dialogs');
 
-mongoose.Promise = global.Promise;
+mongo.Promise = global.Promise;
 var router = express.Router();
 var expressWs = require('express-ws')(router);
 

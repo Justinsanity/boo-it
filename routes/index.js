@@ -2,7 +2,8 @@
  * express router of au_boo_d.rb 
  */
 require('../db');
-require('../helper');
+var Helper = require('../helper');
+var helper = new Helper;
 var express = require('express');
 var router = express.Router();
 
@@ -11,22 +12,40 @@ router.get('/', function(req, res){
 });
 
 /* action to direct to client to boo ! */
-router.get('/friend', function(req, res){
+router.get('/friend', function(req, res){console.log('wh')
     // if(session[id] == nil){
-    if(session[id] == undefined){
-        // session.clear
+    if(req.session.uid == undefined){
+        req.session = undefined;
         res.redirect('/');
     } else {
+        var uid = req.session.uid;
         // MUST to design a random key to hash the session
-        if(session[id] == mongo_id(session[id])){
-            // this part needs a algorithm to send ticket mechanism           
-            login_usr = username_by_id(session[id])
-            friends_json = friends_by_id(session[id])
-            res.render('friends_list', {
-            	locals: {
-            		user_name	: login_usr, 
-            		friends_list: friends_json
-            	}
+        // if(uid == mongo_id(session[id])){    // ???
+        if(uid){
+            // this part needs a algorithm to send ticket mechanism
+            
+            var p = new Promise(function(resolve, reject){
+                helper.username_by_id(uid, function(username){
+                    if(username == 0)
+                        reject("username is not found");
+                    else
+                        resolve(username);
+                });
+            });
+            p.then(function(login_usr){
+                helper.friends_by_id(uid, function(friends){ console.log(login_usr, friends)
+                    if(friends == 0)
+                        res.send("friends is not found");
+                    else                    
+                    res.render('friends_list', {
+                    	locals: {
+                    		user_name	: login_usr, 
+                    		friends_list: friends
+                    	}
+                    });
+                })
+            }, function(error){
+                res.send(error);
             });
         } else {
             /*
@@ -42,6 +61,7 @@ router.get('/friend', function(req, res){
     }
 });
 
+/* TODO: this should be moved to chat.js */
 /* client for Boo-it chating! */
 router.post('/chat', function(req, res){
     if(session[id] == nil){
@@ -99,12 +119,19 @@ router.get('/documents/:id', function(req, res){
 router.post('/login', function(req, res){
 	var username = req.body.username;
 	var password = req.body.password;
-	
-    var username = params[username]
-    var password = params[password]
-    
-    check_username(params[username],params[password])
-    // erb :result
+	helper.check_username(username, password, function(data){
+        if(data == -1){        // account not found
+            req.session = undefined;
+            res.render('404');  // TODO: should not be this page
+        } else if(data == -2){ // worng password
+            req.session = undefined;
+            res.redirect('/');
+        } else {console.log('d')
+            req.session.uid = data;
+            res.redirect('/friend');
+        }
+	});
+
 });
 
 
