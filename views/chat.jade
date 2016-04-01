@@ -37,8 +37,8 @@ html
                     .dialog(id="history_msg")                     
                         if history_msg
                             each m in history_msg
-                                side = (m.from == user_name) ? "right" : "left"
-                                bgcolor = (side == "right") ? "#1abc9c" : "#3498db"
+                                - side = (m.from == user_name) ? "right" : "left"
+                                - bgcolor = (side == "right") ? "#1abc9c" : "#3498db"
                                 div(align=side, style="color:" + bgcolor)= m.from + ": " + m.content
                         else
                             h3 No history

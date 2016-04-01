@@ -29,11 +29,11 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 /* routers */
 app.use('/', index);
 
-app.ws('/echo', function(ws, req){console.log('echo')
+app.ws('/echo', function(ws, req){
     ws.on('open', function(handshake){
         console.log("WebSocket connection open");
         
-        // get history?
+        // TODO: get history
         //   # first message to subscribe channel   
         //   sid << @channel.subscribe {|msg|
         //       #puts "XXX"

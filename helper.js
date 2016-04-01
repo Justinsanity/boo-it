@@ -27,7 +27,7 @@ Helper.prototype = {
             .catch(function(err){
                 console.log('err: ' + err);
             })
-            .then(function(data) {console.log(data)
+            .then(function(data) {
                 if(callback && typeof callback === 'function'){
                     if(data.length === 0)
                         callback(0);
@@ -91,7 +91,6 @@ Helper.prototype = {
                     } else if(data.password != pwd) {
                         callback(-2); // password incorrect
                     } else {
-                        console.log(data);
                         callback(data.uid);
                     } 
                 }

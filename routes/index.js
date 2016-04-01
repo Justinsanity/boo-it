@@ -83,13 +83,12 @@ router.post('/chat', function(req, res){
                 historyid.push(req.body.chat_f); // chat_f is user that login_usr to chat
                 var sort_his_id = historyid.sort();
                 var q_history_id = sort_his_id[0] + sort_his_id[1];
-                console.log(q_history_id)
-                helper.history_by_id(q_history_id, function(history){
+                helper.history_by_id(q_history_id, function(history){console.log(history)
                     // history = history == null ? [''] : history
                     res.render('chat', {
                         user_name: login_usr,
                         friend_name: req.body.chat_f,
-                        history_msg: history == null ? undefined : history
+                        history_msg: history == null ? undefined : history.dialog
                     }); 
                 });         
             });
