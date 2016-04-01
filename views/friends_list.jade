@@ -27,12 +27,12 @@ html
                         Please 
                         strong{} DOUBLE CLICK
                         to choose  a friend
-                table(class="table table-hover")
-                    - JSON.parse(friends_list).each do |f|            
-                        tr(id=f, align="center")
-                            td=f
-                    - end unless @do_nothing
+                JSON.parse(friends_list)
+                // table(class="table table-hover")
+                // - each f in JSON.parse(friends_list)
+                            // tr(id=f, align="center")
+                                // td f
                 
-                form(action="chat", method =>"post", id="form")
+                form(action="chat", method="post", id="form")
                     input(type="hidden", name="chat_f", id="chat_f", value="123")
                     button(type="submit") submit
