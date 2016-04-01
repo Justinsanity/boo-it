@@ -21,7 +21,7 @@ mongoose.model('dialogs', Dialog);	// register model
 
 
 var Account = new schema({
-    uid     : Number,
+    uid     : String,
     username: String,
     password: String,   // tmp
     friends : Array
