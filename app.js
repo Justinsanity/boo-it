@@ -30,30 +30,32 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 app.use('/', index);
 
 app.ws('/echo', function(ws, req){
-    ws.on('open', function(handshake){
-        console.log("WebSocket connection open");
+    // onopen seems no use on backend?
+    // ws.on('open', function(handshake){
+    //     console.log("onopen");
         
-        // TODO: get history
-        //   # first message to subscribe channel   
-        //   sid << @channel.subscribe {|msg|
-        //       #puts "XXX"
-        //       puts "received:" + msg + "---"
-        //       ws.send msg # send itself
-        //       puts "history record"
-        //   }
+    //     // TODO: get history
+    //     //   # first message to subscribe channel   
+    //     //   sid << @channel.subscribe {|msg|
+    //     //       #puts "XXX"
+    //     //       puts "received:" + msg + "---"
+    //     //       ws.send msg # send itself
+    //     //       puts "history record"
+    //     //   }
         
-        var tid = sid.last;
-        console.log(tid, 'connect!');
-    })// end of on open
+    //     // var tid = sid.last;
+    // })// end of on open
     ws.on('message', function(msg){
+        console.log('onmessage')
         var uid = msg.split(/,/);   // RegExpr
-        // channel.push(msg);
         writeDialog(msg);
+        ws.send(msg)
     }); // end of on message
     
     ws.on('close', function(){
         // channel.unsubscribe(tid);
-        console.log(tid, 'connection closed!');
+        // console.log(tid, 'connection closed!');
+        console.log('onclose');
     }); //end of on close
 
 });
