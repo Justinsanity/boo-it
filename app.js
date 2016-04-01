@@ -23,7 +23,7 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 
 /* routers */
 app.use('/', index);
-app.use('/chat', chat);
+app.use('/chats', chat);
 
 // 404 and forward to error handler
 app.use(function(req, res, next) {

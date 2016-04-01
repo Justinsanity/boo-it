@@ -4,7 +4,7 @@
 // this script uesd the jQuery technology
 $(document).ready(function(){
     function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
-    ws = new WebSocket("ws://fancy.cs.nccu.edu.tw:8080");
+    ws = new WebSocket("ws://localhost:3000/chats");
     ws.onmessage = function(evt) {
          var tmp = evt.data.split(",")
          //
@@ -22,3 +22,11 @@ $(document).ready(function(){
       //ws.send("hello server,I am client!");
     };
 });
+
+function booFunction() {
+    u_name = document.getElementById("usr_name").innerHTML;
+    f_name = $("#fri_name").html();
+    dialog = $("#boo").val();
+    ws.send(u_name + "," + f_name + "," + dialog);
+}
+

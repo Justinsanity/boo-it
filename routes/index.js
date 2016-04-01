@@ -59,29 +59,39 @@ router.get('/friend', function(req, res){
     }
 });
 
-/* TODO: this should be moved to chat.js */
 /* client for Boo-it chating! */
 router.post('/chat', function(req, res){
-    if(session[id] == nil){
-        // session.clear
+    if(req.session.uid == undefined){
+        res.session = undefined;
         res.redirect('/');
     } else {
-        if(session[id] == mongo_id(session[id])){
-            // this part needs a algorithm to send ticket mechanism           
-            login_usr = username_by_id(session[id])
-            // history send!
-            historyid = []
-            historyid.push(login_usr)
-            historyid.push(params[chat_f])
-            sort_his_id = historyid.sort
-            q_history_id = sort_his_id[0] + sort_his_id[1]
-            history_json = history_by_id(q_history_id)
-            res.render('chat', {
-            	locals: {
-            		user_name: login_usr,
-            		friend_name: params[chat_f],
-            		history_msg: history_json
-            	}
+        var uid = req.session.uid;
+        // if(res.session.id == mongo_id(res.session.id)){
+        if(uid){
+            var p = new Promise(function(resolve, reject){
+                helper.username_by_id(uid, function(username){
+                    if(username == 0)
+                        reject("username is not found");
+                    else
+                        resolve(username);
+                });
+            });
+            p.then(function(login_usr){
+                // history send!
+                var historyid = [];
+                historyid.push(login_usr);
+                historyid.push(req.body.chat_f); // chat_f is user that login_usr to chat
+                var sort_his_id = historyid.sort();
+                var q_history_id = sort_his_id[0] + sort_his_id[1];
+                console.log(q_history_id)
+                helper.history_by_id(q_history_id, function(history){
+                    // history = history == null ? [''] : history
+                    res.render('chat', {
+                        user_name: login_usr,
+                        friend_name: req.body.chat_f,
+                        history_msg: history == null ? undefined : history
+                    }); 
+                });         
             });
         } else {
             res.send("You are not permissioned to login!");

@@ -52,7 +52,20 @@ Helper.prototype = {
             });
     },
     // find history msg by history_id
-    history_by_id: function(uid){
+    history_by_id: function(did, callback){
+        Dialog.findOne({did: did}).exec()
+            .catch(function(err){
+                console.log('err: ' + err);
+            })
+            .then(function(data){
+                if(callback && typeof callback === 'function'){
+                    if(data == null){
+                        callback(null);
+                    } else {                        
+                        callback(data)
+                    }
+                }
+            })
     /*
         @history_obj = settings.mongo_db['dialog'].find_one(:did => id).to_json
         #p "`````#{@history_obj.to_s}`````"

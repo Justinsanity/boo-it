@@ -54,7 +54,7 @@ var uid = []
 var sid = []
 var channel_list = []
 
-router.ws('/chat', function(ws, req){
+router.ws('/', function(ws, req){console.log('ws!!!')
     ws.on('open', function(handshake){
         console.log("WebSocket connection open");
         
