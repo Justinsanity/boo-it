@@ -10,6 +10,10 @@ var index = require('./routes/index');
 var chat = require('./routes/chat');
 
 var app = express();
+var expressWs = require('express-ws')(app);
+
+var router = express.Router();
+var expressWs = require('express-ws')(router);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -21,9 +25,18 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true}));
 
+
 /* routers */
 app.use('/', index);
 app.use('/chats', chat);
+
+// app.ws('/echo', function(ws, req){
+//   console.log('app.ws /', req.testing);
+//   ws.on('message', function(msg){
+//     console.log('get message: ' + msg)
+//     ws.send('hello client, I receive your message~');
+//   })
+// });
 
 // 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -53,4 +66,5 @@ app.use(function(err, req, res, next) {
     });
 });
 
-module.exports = app;
+app.listen(3000);
+// module.exports = app; // 目前用 node bin/www 沒辦法連接 websocket

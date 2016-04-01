@@ -5,6 +5,8 @@ var Dialog = mongo.model('dialogs');
 
 mongo.Promise = global.Promise;
 var router = express.Router();
+
+/* use websocket */
 var expressWs = require('express-ws')(router);
 
 /*
@@ -54,7 +56,7 @@ var uid = []
 var sid = []
 var channel_list = []
 
-router.ws('/', function(ws, req){console.log('ws!!!')
+router.ws('/t', function(ws, req){console.log('ws!!!')
     ws.on('open', function(handshake){
         console.log("WebSocket connection open");
         
@@ -82,5 +84,6 @@ router.ws('/', function(ws, req){console.log('ws!!!')
         }); //end of on close
     })// end of on open
 });
+
 
 module.exports = router;
