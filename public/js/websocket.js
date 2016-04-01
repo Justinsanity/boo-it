@@ -4,7 +4,7 @@
 // this script uesd the jQuery technology
 $(document).ready(function(){
     function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
-    ws = new WebSocket("ws://localhost:3000/chats/t");
+    ws = new WebSocket("ws://localhost:3000/echo");
     ws.onmessage = function(evt) {
          var tmp = evt.data.split(",")
          //

@@ -7,7 +7,7 @@ var session = require('express-session');
 
 /* routers */
 var index = require('./routes/index');
-var chat = require('./routes/chat');
+var writeDialog = require('./routes/chat');
 
 var app = express();
 var expressWs = require('express-ws')(app);
@@ -28,15 +28,35 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 
 /* routers */
 app.use('/', index);
-app.use('/chats', chat);
 
-// app.ws('/echo', function(ws, req){
-//   console.log('app.ws /', req.testing);
-//   ws.on('message', function(msg){
-//     console.log('get message: ' + msg)
-//     ws.send('hello client, I receive your message~');
-//   })
-// });
+app.ws('/echo', function(ws, req){console.log('echo')
+    ws.on('open', function(handshake){
+        console.log("WebSocket connection open");
+        
+        // get history?
+        //   # first message to subscribe channel   
+        //   sid << @channel.subscribe {|msg|
+        //       #puts "XXX"
+        //       puts "received:" + msg + "---"
+        //       ws.send msg # send itself
+        //       puts "history record"
+        //   }
+        
+        var tid = sid.last;
+        console.log(tid, 'connect!');
+    })// end of on open
+    ws.on('message', function(msg){
+        var uid = msg.split(/,/);   // RegExpr
+        // channel.push(msg);
+        writeDialog(msg);
+    }); // end of on message
+    
+    ws.on('close', function(){
+        // channel.unsubscribe(tid);
+        console.log(tid, 'connection closed!');
+    }); //end of on close
+
+});
 
 // 404 and forward to error handler
 app.use(function(req, res, next) {
