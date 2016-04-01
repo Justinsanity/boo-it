@@ -12,7 +12,7 @@ router.get('/', function(req, res){
 });
 
 /* action to direct to client to boo ! */
-router.get('/friend', function(req, res){console.log('wh')
+router.get('/friend', function(req, res){
     // if(session[id] == nil){
     if(req.session.uid == undefined){
         req.session = undefined;
@@ -33,15 +33,13 @@ router.get('/friend', function(req, res){console.log('wh')
                 });
             });
             p.then(function(login_usr){
-                helper.friends_by_id(uid, function(friends){ console.log(login_usr, friends)
+                helper.friends_by_id(uid, function(friends){
                     if(friends == 0)
                         res.send("friends is not found");
                     else                    
                     res.render('friends_list', {
-                    	locals: {
-                    		user_name	: login_usr, 
-                    		friends_list: friends
-                    	}
+                    	user_name	: login_usr, 
+                    	friends_list: friends
                     });
                 })
             }, function(error){
@@ -126,7 +124,7 @@ router.post('/login', function(req, res){
         } else if(data == -2){ // worng password
             req.session = undefined;
             res.redirect('/');
-        } else {console.log('d')
+        } else {
             req.session.uid = data;
             res.redirect('/friend');
         }
