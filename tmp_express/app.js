@@ -2,7 +2,6 @@
 var express = require('express');
 var path = require('path');
 var http = require('http');
-var engine = require('consolidate');
 
 /* routers */
 var index = require('./routes/index');
