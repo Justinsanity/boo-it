@@ -10,10 +10,6 @@ var index = require('./routes/index');
 var writeDialog = require('./routes/chat');
 
 var app = express();
-var expressWs = require('express-ws')(app);
-
-var router = express.Router();
-var expressWs = require('express-ws')(router);
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -25,39 +21,32 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true}));
 
-
 /* routers */
 app.use('/', index);
 
-app.ws('/echo', function(ws, req){
-    // onopen seems no use on backend?
-    // ws.on('open', function(handshake){
-    //     console.log("onopen");
-        
-    //     // TODO: get history
-    //     //   # first message to subscribe channel   
-    //     //   sid << @channel.subscribe {|msg|
-    //     //       #puts "XXX"
-    //     //       puts "received:" + msg + "---"
-    //     //       ws.send msg # send itself
-    //     //       puts "history record"
-    //     //   }
-        
-    //     // var tid = sid.last;
-    // })// end of on open
-    ws.on('message', function(msg){
-        console.log('onmessage')
-        var uid = msg.split(/,/);   // RegExpr
-        writeDialog(msg);
-        ws.send(msg)
-    }); // end of on message
+// websocket server
+var WebSocketServer = require('ws').Server
+  , wss = new WebSocketServer({ port: 8080 })
+  , url = require('url');
+
+wss.on('connection', function connection(ws) {
+    var location = url.parse(ws.upgradeReq.url, true);
+    // you might use location.query.access_token to authenticate or share sessions 
+    // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312) 
+
+    ws.on('message', function incoming(message) {
+        console.log('onmessage, received: %s', message);
+        var uid = message.split(/,/);   // RegExpr
+        writeDialog(message);
+        wss.clients.forEach(function each(client) {     // broadcast to all client // TODO: 不是這個 dialog 的？ 
+             client.send(message)
+        });
+    }); 
     
     ws.on('close', function(){
         // channel.unsubscribe(tid);
-        // console.log(tid, 'connection closed!');
         console.log('onclose');
-    }); //end of on close
-
+    });
 });
 
 // 404 and forward to error handler
@@ -88,5 +77,4 @@ app.use(function(err, req, res, next) {
     });
 });
 
-app.listen(3000);
-// module.exports = app; // 目前用 node bin/www 沒辦法連接 websocket
+module.exports = app;

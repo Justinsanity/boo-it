@@ -2,7 +2,7 @@
   "name": "boo-it-server",
   "version": "1.0.0",
   "scripts": {
-    "start": "node ./app.js"
+    "start": "node ./bin/www"
   },
   "dependencies": {
     "body-parser": "^1.15.0",
@@ -10,7 +10,8 @@
     "express-session": "^1.13.0",
     "express-ws": "github:joepie91/express-ws",
     "jade": "^1.11.0",
-    "mongoose": "^4.4.10"
+    "mongoose": "^4.4.10",
+    "socket.io": "^1.4.5"
   },
   "devDependencies": {
     "debug": "^2.2.0"
