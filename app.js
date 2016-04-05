@@ -46,6 +46,7 @@ wss.on('connection', function connection(ws) {
     ws.on('close', function(){
         // channel.unsubscribe(tid);
         console.log('onclose');
+        ws.send('websocket closed')
     });
 });
 
