@@ -5,7 +5,7 @@
  
 var mongoose = require('mongoose');
 var schema = mongoose.Schema;
-var uristring = process.env.MONGOLAB_URI;
+var uristring = 'mongodb://app:admin@ds015720.mlab.com:15720/heroku_q5tgg0nc';
 
 var Content = new schema({
     from : String,
