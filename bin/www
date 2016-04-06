@@ -1,74 +1,117 @@
 #!/usr/bin/env node
-'use strict';
 
-var https = require('https');
+/**
+ * Module dependencies.
+ */
+
+var app = require('../app');
+var debug = require('debug')('booit:server');
 var http = require('http');
-var path = require('path');
-var port = process.argv[2] || 8043;
-var insecurePort = process.argv[3] || 4080;
-var fs = require('fs');
-var checkip = require('check-ip-address');
-var server;
-var insecureServer;
-var options;
-var certsPath = path.join(__dirname, 'certs', 'server');
-var caCertsPath = path.join(__dirname, 'certs', 'ca');
 
-//
-// SSL Certificates
-//
-options = {
-  key: fs.readFileSync(path.join(certsPath, 'my-server.key.pem'))
-  // This certificate should be a bundle containing your server certificate and any intermediates
-  // cat certs/cert.pem certs/chain.pem > certs/server-bundle.pem
-, cert: fs.readFileSync(path.join(certsPath, 'my-server.crt.pem'))
-  // ca only needs to be specified for peer-certificates
-//, ca: [ fs.readFileSync(path.join(caCertsPath, 'my-root-ca.crt.pem')) ]
-, requestCert: false
-, rejectUnauthorized: true
-};
+/**
+ * Get port from environment and store in Express.
+ */
+
+var port = normalizePort(process.env.PORT);
+app.set('port', port);
+
+/**
+ * Create HTTP server.
+ */
+
+var server = http.createServer(app);
 
 
-//
-// Serve an Express App securely with HTTPS
-//
-server = https.createServer(options);
-checkip.getExternalIp().then(function (ip) {
-  var host = ip || 'local.helloworld3000.com';
+// websocket server
+var WebSocketServer = require('ws').Server
+  , wss = new WebSocketServer({ server: server })
+  , url = require('url');
+var writeDialog = require('../routes/chat');
+wss.on('connection', function connection(ws) {
+    console.log('websocket connected');
+    var location = url.parse(ws.upgradeReq.url, true);
+    // you might use location.query.access_token to authenticate or share sessions 
+    // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312) 
 
-  function listen(app) {
-    server.on('request', app);
-    server.listen(port, function () {
-      port = server.address().port;
-      console.log('Listening on https://127.0.0.1:' + port);
-      console.log('Listening on https://local.helloworld3000.com:' + port);
-      if (ip) {
-        console.log('Listening on https://' + ip + ':' + port);
-      }
+    ws.on('message', function incoming(message) {
+        console.log('onmessage, received: %s', message);
+        var uid = message.split(/,/);   // RegExpr
+        writeDialog(message);
+        wss.clients.forEach(function each(client) {     // broadcast to all client // TODO: 不是這個 dialog 的？ 
+             client.send(message)
+        });
+    }); 
+    
+    ws.on('close', function(){
+        // channel.unsubscribe(tid);
+        console.log('onclose');
     });
+});
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+
+server.listen(port);
+server.on('error', onError);
+server.on('listening', onListening);
+
+/**
+ * Normalize a port into a number, string, or false.
+ */
+
+function normalizePort(val) {
+  var port = parseInt(val, 10);
+
+  if (isNaN(port)) {
+    // named pipe
+    return val;
   }
 
-  var publicDir = path.join(__dirname, 'public');
-  var app = require('./app').create(server, host, port, publicDir);
-  listen(app);
-});
+  if (port >= 0) {
+    // port number
+    return port;
+  }
 
+  return false;
+}
 
-//
-// Redirect HTTP ot HTTPS
-//
-// This simply redirects from the current insecure location to the encrypted location
-//
-insecureServer = http.createServer();
-insecureServer.on('request', function (req, res) {
-  // TODO also redirect websocket upgrades
-  res.setHeader(
-    'Location'
-  , 'https://' + req.headers.host.replace(/:\d+/, ':' + port) + req.url
-  );
-  res.statusCode = 302;
-  res.end();
-});
-insecureServer.listen(insecurePort, function(){
-  console.log("\nRedirecting all http traffic to https\n");
-});
+/**
+ * Event listener for HTTP server "error" event.
+ */
+
+function onError(error) {
+  if (error.syscall !== 'listen') {
+    throw error;
+  }
+
+  var bind = typeof port === 'string'
+    ? 'Pipe ' + port
+    : 'Port ' + port;
+
+  // handle specific listen errors with friendly messages
+  switch (error.code) {
+    case 'EACCES':
+      console.error(bind + ' requires elevated privileges');
+      process.exit(1);
+      break;
+    case 'EADDRINUSE':
+      console.error(bind + ' is already in use');
+      process.exit(1);
+      break;
+    default:
+      throw error;
+  }
+}
+
+/**
+ * Event listener for HTTP server "listening" event.
+ */
+
+function onListening() {
+  var addr = server.address();
+  var bind = typeof addr === 'string'
+    ? 'pipe ' + addr
+    : 'port ' + addr.port;
+  debug('Listening on ' + bind);
+}

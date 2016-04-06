@@ -7,7 +7,6 @@ var session = require('express-session');
 
 /* routers */
 var index = require('./routes/index');
-var writeDialog = require('./routes/chat');
 
 var app = express();
 
@@ -23,32 +22,6 @@ app.use(session({ secret: 'keyboard cat', resave: false, saveUninitialized: true
 
 /* routers */
 app.use('/', index);
-
-// websocket server
-var WebSocketServer = require('ws').Server
-  , wss = new WebSocketServer({ port: 8080 })
-  , url = require('url');
-
-wss.on('connection', function connection(ws) {
-    var location = url.parse(ws.upgradeReq.url, true);
-    // you might use location.query.access_token to authenticate or share sessions 
-    // or ws.upgradeReq.headers.cookie (see http://stackoverflow.com/a/16395220/151312) 
-
-    ws.on('message', function incoming(message) {
-        console.log('onmessage, received: %s', message);
-        var uid = message.split(/,/);   // RegExpr
-        writeDialog(message);
-        wss.clients.forEach(function each(client) {     // broadcast to all client // TODO: 不是這個 dialog 的？ 
-             client.send(message)
-        });
-    }); 
-    
-    ws.on('close', function(){
-        // channel.unsubscribe(tid);
-        console.log('onclose');
-        ws.send('websocket closed')
-    });
-});
 
 // 404 and forward to error handler
 app.use(function(req, res, next) {
