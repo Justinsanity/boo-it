@@ -4,7 +4,7 @@
 // this script uesd the jQuery technology
 $(document).ready(function(){
     function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
-    ws = new WebSocket("wss://boo-it-fbukevin.c9users.io");
+    ws = new WebSocket("wss://boo-it.herokuapp.com");
     ws.onmessage = function(evt) {console.log(evt)
          var tmp = evt.data.split(",")
          u_name = document.getElementById("usr_name").innerHTML;
