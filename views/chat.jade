@@ -28,9 +28,6 @@ html
                     h3
                         Tell
                         strong(id="fri_name" , value=friend_name)= friend_name
-                    input(type="text" , id="boo" , name="boo", class="form-control")
-                    br
-                    input(type="button", onclick="booFunction()", value="Boo it!", class="btn btn-default")
                     content(id="debug")
                     br
                     br
@@ -43,3 +40,6 @@ html
                         else
                             h3 No history
                     .dialog(id="msg")
+                    input(type="text" , id="boo" , name="boo", class="form-control")
+                    br
+                    input(type="button", onclick="booFunction()", value="Boo it!", class="btn btn-default")
