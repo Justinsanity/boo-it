@@ -5,11 +5,10 @@
 $(document).ready(function(){
     function debug(str){ $("#debug").append("<p>"+str+"</p>"); };
     ws = new WebSocket("wss://boo-it-fbukevin.c9users.io");
-    ws.onmessage = function(evt) {
+    ws.onmessage = function(evt) {console.log(evt)
          var tmp = evt.data.split(",")
-         //
-         // need to design a friends list here!
-         //
+         u_name = document.getElementById("usr_name").innerHTML;
+         f_name = $("#fri_name").html();
          if (tmp[0] == u_name && tmp[1] == f_name)
             $("#msg").append("<div align='right' style='color: #1abc9c'>"+ tmp[0] + ": "+ tmp[2] + "</div>");
          else if (tmp[0] == f_name && tmp[1] == u_name)
@@ -19,7 +18,7 @@ $(document).ready(function(){
     ws.onclose = function() { debug("socket closed"); };
     ws.onopen = function() {
       debug("connected...");
-      //ws.send("hello server,I am client!");
+      ws.send("hello server,I am client!");
     };
 });
 
